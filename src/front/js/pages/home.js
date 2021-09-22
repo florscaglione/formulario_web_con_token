@@ -12,9 +12,58 @@ export const Home = () => {
 			"Content-Type": "application/json"
 		},
 		body: JSON.stringify({
-			name: "Prueba"
+			name: "Prueba4"
 		})
 	}).then(response => console.log(response));
+
+	fetch("https://3001-cyan-galliform-3nlrp71m.ws-eu16.gitpod.io/api/countries/1/cities/create", {
+		method: "POST",
+		body: JSON.stringify({
+			name: "CiudadPrueba4"
+		}),
+		headers: {
+			"Content-Type": "application/json"
+		}
+	}).then(response => console.log(response));
+
+	fetch("https://3001-cyan-galliform-3nlrp71m.ws-eu16.gitpod.io/api/users/create", {
+		method: "POST",
+		body: JSON.stringify({
+			email: "Prueba4@gmail.com",
+			password: "password"
+		}),
+		headers: {
+			"Content-Type": "application/json"
+		}
+	}).then(response => console.log(response));
+
+	fetch("https://3001-cyan-galliform-3nlrp71m.ws-eu16.gitpod.io/api/users/create", {
+		method: "POST",
+		body: JSON.stringify({
+			email: "email_with_city4@gmail.com",
+			password: "password",
+			city_id: 4
+		}),
+		headers: {
+			"Content-Type": "application/json"
+		}
+	}).then(response => console.log(response));
+
+	/* async function loadUser() {
+		const user = await fetch(`https://3001-cyan-galliform-3nlrp71m.ws-eu16.gitpod.io/api/user/1/`).then(response =>
+			response.json()
+		);
+		const city = await fetch(
+			`https://3001-cyan-galliform-3nlrp71m.ws-eu16.gitpod.io/api/cities/${user.city_id}/`
+		).then(response => response.json());
+		const country = await fetch(
+			`https://3001-cyan-galliform-3nlrp71m.ws-eu16.gitpod.io/api/cities/${user.country_id}/`
+		).then(response => response.json());
+		user.city = city;
+		user.city.country = country;
+		console.log(user);
+		//setUser(user);
+	} */
 
 	return (
 		<div className="text-center mt-5">

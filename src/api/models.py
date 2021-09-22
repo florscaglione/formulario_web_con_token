@@ -18,6 +18,7 @@ class User(db.Model):
         return {
             "id": self.id,
             "email": self.email,
+            "city_id": self.city
         }
 
 class City(db.Model):

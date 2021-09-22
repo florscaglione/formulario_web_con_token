@@ -24,6 +24,14 @@ def get_json(): # esta función es común para varias funciones (así se optimiz
    
     return json     # si lo encuentra, lo devuelve
 
+def get_name(json): # json tiene q pasarse por parámetro porque no es un objeto global que esté importado (como el request de la función get_json), sino que es local proveniente de get_json()
+    name = json.get("name") # cogemos el nombre del país/ciudad que se ha escrito
+
+    if name is None or name == "":
+        raise APIException("El nombre es obligatorio") # lanzo una excepción que la aplicación captura y devuelve al usuario
+
+    return name
+
 # Quiero ver el listado de países:
 @api.route('/countries', methods=['GET'])
 def list_countries():
@@ -43,6 +51,11 @@ def create_country():
 
     return jsonify(country.serialize()), 200    # lo devuelvo
 
+@api.route('/country/<int:country_id>', methods=["GET"])
+def show_country(country_id):
+    country = Country.query.get(country_id)
+    return jsonify(country.serialize()), 200
+
 # Quiero listar sólo las ciudades de un país:
 @api.route('/countries/<int:country_id>/cities', methods=['GET'])  
 def list_cities_in_country(country_id):     # paso por parámetro el id del país en cuestión
@@ -57,63 +70,38 @@ def create_city_in_country(country_id):
        
     name = get_name(json)   
 
-def get_name(json): # json tiene q pasarse por parámetro porque no es un objeto global que esté importado (como el request de la función get_json), sino que es local proveniente de get_json()
-    name = json.get("name") # cogemos el nombre del país/ciudad que se ha escrito
+@api.route('/users/create', methods=["POST"])
+def create_user():
+    json = get_json()
 
-    if name is None or name == "":
-        raise APIException("El nombre es obligatorio") # lanzo una excepción que la aplicación captura y devuelve al usuario
+    email = json.get('email')
+    password = json.get('password')
+    city_id = json.get('city_id')
+        
+     #Todo comprobar los campos
+    user = User(email=email, password=password)
 
-    return name
+    if city_id is not None:
+        user.city_id = city_id
+
+    user.save()
+
+    return jsonify(user.serialize()),200
+
+@api.route('/login', methods=["POST"])
+def login():
+    #TODO
+    return jsonify({user: user.serialize(), access_token: "jadsfkaskdjflkjaskdjf"})
+
+@api.route('/users/<int:user_id>', methods=["GET"])
+def show_user(user_id):
+    user = User.query.get(user_id)
+    return jsonify(user.serialize()), 200
+
+@api.route('/cities/<int:city_id>', methods=["GET"])
+def show_city(city_id):
+    city = City.query.get(city_id)
+    return jsonify(city.serialize()), 200
+
 
 # (A CONTINUACIÓN, LO QUE HICIMOS EL PRIMER DÍA)
-    @api.route('/login', methods=['POST'])
-def login():
-    email = request.json.get("email", None)
-    password = request.json.get("password", None)
-    user = User.query.filter_by(email = email).first()
-    print(user.password)
-    if(user.password != password or user is None):
-        return "user not exist", 404
-  
-    access_token = create_access_token(identity=email)
-    return jsonify(access_token=access_token)
-
-
-    response_body = {
-        "message": "Token: Access Token"
-    }
-
-    return jsonify(response_body), 200
-
-@api.route('/register', methods=['POST'])
-def register():
-    name = request.json.get("name", None)
-    email = request.json.get("email", None)
-    password = request.json.get("password", None)
-    city_id = request.json.get("city_id", None)
-    user = User.query.filter_by(email = email).first()
-    if(user):
-        return "user exist", 400
-    new_user = User(name = name, email = email, password = password, city_id = city_id)
-    db.session.add(new_user)
-    db.session.commit()
-   
-    #access_token = create_access_token(identity=email)
-    #return jsonify(access_token=access_token), "User created successfully", 200
-
-
-    response_body = {
-        "message": "Hello! I'm a message that came from the backend"
-    }
-
-    return jsonify(response_body), 200
-
-@api.route('/user', methods=['GET'])
-def user_info():
-    user = User.query.filter_by(id = User.id).first()
-
-    response_body = {
-        "message": "Hello! I'm a message that came from the backend"
-    }
-
-    return jsonify(response_body), 200
