@@ -6,6 +6,16 @@ import "../../styles/home.scss";
 export const Home = () => {
 	const { store, actions } = useContext(Context);
 
+	fetch("https://3001-blush-antlion-lmk5yotd.ws-eu16.gitpod.io/api/countries/create", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json"
+		},
+		body: JSON.stringify({
+			name: "Prueba"
+		})
+	}).then(response => console.log(response));
+
 	return (
 		<div className="text-center mt-5">
 			<h1>Hello Rigo!</h1>
