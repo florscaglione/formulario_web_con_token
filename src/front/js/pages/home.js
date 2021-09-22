@@ -5,31 +5,32 @@ import "../../styles/home.scss";
 
 export const Home = () => {
 	const { store, actions } = useContext(Context);
+	const url = "https://3001-pink-lobster-5042dndp.ws-eu17.gitpod.io/";
 
-	fetch("https://3001-blush-antlion-lmk5yotd.ws-eu16.gitpod.io/api/countries/create", {
+	fetch(`${url}api/countries/create`, {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json"
 		},
 		body: JSON.stringify({
-			name: "Prueba4"
+			name: "Prueba7"
 		})
 	}).then(response => console.log(response));
 
-	fetch("https://3001-cyan-galliform-3nlrp71m.ws-eu16.gitpod.io/api/countries/1/cities/create", {
+	fetch(`${url}api/countries/1/cities/create`, {
 		method: "POST",
 		body: JSON.stringify({
-			name: "CiudadPrueba4"
+			name: "CiudadPrueba7"
 		}),
 		headers: {
 			"Content-Type": "application/json"
 		}
 	}).then(response => console.log(response));
 
-	fetch("https://3001-cyan-galliform-3nlrp71m.ws-eu16.gitpod.io/api/users/create", {
+	fetch(`${url}api/users/create`, {
 		method: "POST",
 		body: JSON.stringify({
-			email: "Prueba4@gmail.com",
+			email: "Prueba7@gmail.com",
 			password: "password"
 		}),
 		headers: {
@@ -37,12 +38,12 @@ export const Home = () => {
 		}
 	}).then(response => console.log(response));
 
-	fetch("https://3001-cyan-galliform-3nlrp71m.ws-eu16.gitpod.io/api/users/create", {
+	fetch(`${url}api/users/create`, {
 		method: "POST",
 		body: JSON.stringify({
-			email: "email_with_city4@gmail.com",
+			email: "email_with_city7@gmail.com",
 			password: "password",
-			city_id: 4
+			city_id: 5
 		}),
 		headers: {
 			"Content-Type": "application/json"

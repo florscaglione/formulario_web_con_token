@@ -18,8 +18,11 @@ class User(db.Model):
         return {
             "id": self.id,
             "email": self.email,
-            "city_id": self.city
+            "city_id": self.city_id
         }
+    def save(self):
+        db.session.add(self)      # lo guardo en la BBDD. Paso "self" porque esto dentro del modelo country, por eso es "sí mismo"
+        db.session.commit()
 
 class City(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -36,7 +39,11 @@ class City(db.Model):
         return {
             "id": self.id,
             "name": self.name,
-        }                
+        }
+    
+    def save(self):
+        db.session.add(self)      # lo guardo en la BBDD. Paso "self" porque esto dentro del modelo country, por eso es "sí mismo"
+        db.session.commit()                
 
 class Country(db.Model):
     id = db.Column(db.Integer, primary_key=True)
